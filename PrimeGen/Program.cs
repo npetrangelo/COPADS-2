@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Diagnostics;
 using System.Numerics;
 using System.Security.Cryptography;
 
@@ -34,6 +35,8 @@ internal static class Program {
         Console.WriteLine($"BitLength: {Bits}");
         var n = 1;
         var nLock = new object();
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
         Parallel.For(0, _count, _ => {
             BigInteger prime;
             do {
@@ -44,6 +47,8 @@ internal static class Program {
                 Console.WriteLine($"{n++}: {prime}");
             }
         });
+        stopwatch.Stop();
+        Console.WriteLine("Time to Generate: " + stopwatch.Elapsed);
     }
 
     public static bool IsProbablyPrime(this BigInteger value, int k = 10) {
