@@ -32,7 +32,7 @@ internal static class Program {
                 Bits = int.Parse(args[0]);
                 break;
         }
-        Console.WriteLine($"BitLength: {Bits}");
+        Console.WriteLine($"BitLength: {Bits} bits");
         var n = 1;
         var nLock = new object();
         var stopwatch = new Stopwatch();
@@ -44,7 +44,7 @@ internal static class Program {
             } while (!prime.IsProbablyPrime());
 
             lock (nLock) {
-                Console.WriteLine($"{n++}: {prime}");
+                Console.WriteLine($"{n++}: {prime}\n");
             }
         });
         stopwatch.Stop();
