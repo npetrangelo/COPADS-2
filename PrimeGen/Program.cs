@@ -18,11 +18,11 @@ internal static class Program {
     private static void Main(string[] args) {
         switch (args.Length) {
             case < 1:
-                Console.WriteLine("Arguments not specified.");
+                Console.WriteLine("Arguments not specified. Usage:");
                 Console.WriteLine(ErrorMsg);
                 return;
             case > 2:
-                Console.WriteLine("Too many arguments.");
+                Console.WriteLine("Too many arguments. Usage:");
                 Console.WriteLine(ErrorMsg);
                 return;
             case 2:
@@ -32,6 +32,19 @@ internal static class Program {
                 Bits = int.Parse(args[0]);
                 break;
         }
+        
+        if (Bits % 8 != 0) {
+            Console.WriteLine("Bits must be a multiple of 8. Usage:");
+            Console.WriteLine(ErrorMsg);
+            return;
+        }
+        
+        if (Bits < 32) {
+            Console.WriteLine("Bits must be at least 32. Usage:");
+            Console.WriteLine(ErrorMsg);
+            return;
+        }
+        
         Console.WriteLine($"BitLength: {Bits} bits");
         var n = 1;
         var nLock = new object();
