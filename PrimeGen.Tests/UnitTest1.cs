@@ -14,12 +14,6 @@ public class Tests {
     }
 
     [Test]
-    public void TestIsIntProbablyPrime() {
-        Assert.True(Program.IsIntProbablyPrime(97));
-        Assert.False(Program.IsIntProbablyPrime(100));
-    }
-    
-    [Test]
     public void TestIsProbablyPrime() {
         Assert.True(new BigInteger(97).IsProbablyPrime());
     }

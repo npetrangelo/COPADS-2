@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 namespace PrimeGen;
 
-static class Program {
+internal static class Program {
     public static int Bits;
     private static int _count = 1;
 
@@ -63,44 +63,6 @@ static class Program {
             for (var j = 0; j < r; j++) {
                 y = BigInteger.ModPow(x, 2, value);
                 if (y == 1 && x != 1 && BigInteger.Compare(x, BigInteger.Subtract(value, 1)) != 0) {
-                    return false;
-                }
-                x = y;
-            }
-            if (y != 1) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    public static bool IsIntProbablyPrime(int value, int k = 10) {
-        if (value is > 0 and < 3) { // Handle base case
-            return true;
-        }
-
-        if (value % 2 == 0) {
-            return false;
-        }
-
-        var d = value - 1;
-        var r = 0;
-        while (d % 2 == 0) {
-            d /= 2;
-            r++;
-        }
-        
-        for (var i = 0; i < k; i++) {
-            var a = new Random().Next(2, value - 1);
-            var x = (int) Math.Pow(a, d) % value;
-            if (x == 1 || x == value - 1) {
-                continue;
-            }
-
-            var y = x*x % value;
-            for (var j = 0; j < r; j++) {
-                y = x*x % value;
-                if (y == 1 && x != 1 && x != value - 1) {
                     return false;
                 }
                 x = y;
