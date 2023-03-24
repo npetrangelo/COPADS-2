@@ -30,7 +30,7 @@ static class Program {
         Console.WriteLine($"Bits={Bits} count={_count}");
     }
 
-    public static Boolean IsProbablyPrime(this BigInteger value, int k = 10) {
+    public static bool IsProbablyPrime(this BigInteger value, int k = 10) {
         if (value > 0 && value < 3) { // Handle base case
             return true;
         }
@@ -46,7 +46,7 @@ static class Program {
             r++;
         }
         
-        for (int i = 0; i < k; i++) {
+        for (var i = 0; i < k; i++) {
             var bytes = RandomNumberGenerator.GetBytes(Bits/8);
             var a = new BigInteger(bytes);
             // Try again until random number is in valid range
@@ -60,7 +60,7 @@ static class Program {
             }
 
             var y = BigInteger.ModPow(x, 2, value);
-            for (int j = 0; j < r; j++) {
+            for (var j = 0; j < r; j++) {
                 y = BigInteger.ModPow(x, 2, value);
                 if (y == 1 && x != 1 && BigInteger.Compare(x, BigInteger.Subtract(value, 1)) != 0) {
                     return false;
@@ -74,8 +74,8 @@ static class Program {
         return true;
     }
     
-    public static Boolean IsIntProbablyPrime(int value, int k = 10) {
-        if (value > 0 && value < 3) { // Handle base case
+    public static bool IsIntProbablyPrime(int value, int k = 10) {
+        if (value is > 0 and < 3) { // Handle base case
             return true;
         }
 
