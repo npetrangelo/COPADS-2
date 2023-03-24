@@ -24,9 +24,13 @@ internal static class Program {
                 Console.WriteLine("Too many arguments.");
                 Console.WriteLine(ErrorMsg);
                 return;
+            case 2:
+                _count = int.Parse(args[1]);
+                goto case 1;
+            case 1:
+                Bits = int.Parse(args[0]);
+                break;
         }
-        _count = int.Parse(args[1]);
-        Bits = int.Parse(args[0]);
         Console.WriteLine($"BitLength: {Bits}");
         var n = 1;
         var nLock = new object();
