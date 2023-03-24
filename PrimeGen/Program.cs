@@ -27,16 +27,31 @@ internal static class Program {
         }
         _count = int.Parse(args[1]);
         Bits = int.Parse(args[0]);
-        Console.WriteLine($"Bits={Bits} count={_count}");
+        Console.WriteLine($"BitLength: {Bits}");
+        var n = 1;
+        var nLock = new object();
+        Parallel.For(0, _count, _ => {
+            BigInteger prime;
+            do {
+                prime = new BigInteger(RandomNumberGenerator.GetBytes(Bits / 8), true);
+            } while (!prime.IsProbablyPrime());
+
+            lock (nLock) {
+                Console.WriteLine($"{n++}: {prime}");
+            }
+        });
     }
 
     public static bool IsProbablyPrime(this BigInteger value, int k = 10) {
         if (value > 0 && value < 3) { // Handle base case
             return true;
         }
-
-        if (value.IsEven) {
-            return false;
+        
+        int[] lowPrimes = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31 };
+        foreach (var n in lowPrimes) {
+            if (BigInteger.Remainder(value, n) == 0) {
+                return false;
+            }
         }
 
         var d = BigInteger.Subtract(value, 1);
@@ -47,13 +62,10 @@ internal static class Program {
         }
         
         for (var i = 0; i < k; i++) {
-            var bytes = RandomNumberGenerator.GetBytes(Bits/8);
-            var a = new BigInteger(bytes);
-            // Try again until random number is in valid range
-            while (a < 2 || BigInteger.Compare(a, BigInteger.Subtract(value, 2)) > 0) {
-                bytes = RandomNumberGenerator.GetBytes(Bits/8);
-                a = new BigInteger(bytes);
-            }
+            BigInteger a;
+            do {
+                a = new BigInteger(RandomNumberGenerator.GetBytes(Bits/8), true);
+            } while (a < 2 || BigInteger.Compare(a, BigInteger.Subtract(value, 2)) > 0);
             var x = BigInteger.ModPow(a, d, value);
             if (x == 1 || BigInteger.Compare(x, BigInteger.Subtract(value, 1)) == 0) {
                 continue;

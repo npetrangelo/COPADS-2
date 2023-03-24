@@ -16,5 +16,6 @@ public class Tests {
     [Test]
     public void TestIsProbablyPrime() {
         Assert.True(new BigInteger(97).IsProbablyPrime());
+        Assert.False(new BigInteger(100).IsProbablyPrime());
     }
 }
