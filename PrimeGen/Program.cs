@@ -6,10 +6,28 @@ using System.Security.Cryptography;
 namespace PrimeGen;
 
 static class Program {
-    public static int bits;
-    static void Main(string[] args) {
-        Console.WriteLine("Hello, World!");
-        bits = Int32.Parse(args[0]);
+    public static int Bits;
+    private static int _count = 1;
+
+    private const string ErrorMsg = """
+        dotnet run <bits> <count=1>
+            - bits - the number of bits of the prime number, this must be a multiple of 8, and at least 32 bits.
+            - count - the number of prime numbers to generate, defaults to 1
+        """;
+    private static void Main(string[] args) {
+        switch (args.Length) {
+            case < 1:
+                Console.WriteLine("Arguments not specified.");
+                Console.WriteLine(ErrorMsg);
+                return;
+            case > 2:
+                Console.WriteLine("Too many arguments.");
+                Console.WriteLine(ErrorMsg);
+                return;
+        }
+        _count = int.Parse(args[1]);
+        Bits = int.Parse(args[0]);
+        Console.WriteLine($"Bits={Bits} count={_count}");
     }
 
     public static Boolean IsProbablyPrime(this BigInteger value, int k = 10) {
@@ -29,11 +47,11 @@ static class Program {
         }
         
         for (int i = 0; i < k; i++) {
-            var bytes = RandomNumberGenerator.GetBytes(bits/8);
+            var bytes = RandomNumberGenerator.GetBytes(Bits/8);
             var a = new BigInteger(bytes);
             // Try again until random number is in valid range
             while (a < 2 || BigInteger.Compare(a, BigInteger.Subtract(value, 2)) > 0) {
-                bytes = RandomNumberGenerator.GetBytes(bits/8);
+                bytes = RandomNumberGenerator.GetBytes(Bits/8);
                 a = new BigInteger(bytes);
             }
             var x = BigInteger.ModPow(a, d, value);

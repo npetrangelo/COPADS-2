@@ -5,7 +5,7 @@ namespace PrimeGen.Tests;
 public class Tests {
     [SetUp]
     public void Setup() {
-        Program.bits = 8;
+        Program.Bits = 8;
     }
 
     [Test]
